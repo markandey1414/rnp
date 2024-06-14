@@ -1,4 +1,4 @@
-# Rar
+# RNP (Rust NumPy)
 ### An end to end ipmlementation of NumPy in Rust starting from scratch.
 
 ### This is a basic implementation of NumPy in Rust that I have implemented as a side project. Right now it contains the basic array operations such as addition, subtraction and dot product.

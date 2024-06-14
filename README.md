@@ -8,3 +8,6 @@ Just run the `main.rs` file independently for now; I will create a whole crate f
 
 first error that I made: never use ';' when returning a generic :`)
 
+## Why Rust?
+
+Rust is a systems and developer friendly language with great error handling unlike any other, and fast operatability like C.

@@ -4,7 +4,9 @@ This project is a standard implementation of numpy in rust. I took the inspirati
 
 As of now it contains the basic array operations such as addition, multiplication, transpose and some shape shifting xD.
 This is a Rust project, which means you need to create an environment to run it.
+
 `cargo new {project name}`
+
 The above code creates a cargo project for the implementation part, and then, you can run it and maybe try off something new onto it!
 
 I'm lazy with error handling that's why I went with rust.

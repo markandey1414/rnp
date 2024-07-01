@@ -1,3 +1,14 @@
+/*
+Welcome. Rust is a cool language, from error handling to specific functionalities catered for Machine learning.
+But it sure creates a headache for a newcomer like me who switches from Java & python to here.
+Now there are many different ways to implement a function, you'll see. 
+
+Get a coffe and empty your mind :)
+You're gonna enjoy this.
+
+P.S.: Also if you wish to add something else please do, I'm also learning this language and it's pretty fun
+*/
+
 #![allow(unused)]
 use std::fmt;
 use std::cmp;
@@ -19,6 +30,7 @@ struct Array{
     f_order: bool,
 }
 
+// this implements all the functions to be associated with the struct that is Array
 impl Array{
     fn new(shape: &[usize]) -> Self{
         let ndim = shape.len();
@@ -43,6 +55,7 @@ impl Array{
         arr
     }
 
+    // mutable variables are used for ease of handling random stuff
     fn set_array_flags(&mut self){
         self.c_order = self.strides[self.ndim-1] == self.itemsize;
         self.f_order = self.strides[0] == self.itemsize;
@@ -66,7 +79,7 @@ impl Array{
     }
 
     fn from_values(&mut self, values: &[f32]){
-        assert_eq!(self.totalsize, values.len());
+        assert_eq!(self.totalsize, values.len());        // this is like if..else in 1 line, it 'panics'(fancy term for error generation) if condition is not satisfied
         self.data.copy_from_slice(values);
     }
 
@@ -104,7 +117,7 @@ impl Array{
         if depth==self.ndim-1{
             for i in 0..self.shape[self.ndim-1]{
                 print!("{:.3}", self.data[*curr]);
-                *curr += self.strides[self.ndim-1] / self.itemsize;
+                *curr += self.strides[self.ndim-1] / self.itemsize;        // pointers as in C
             }
             *curr += self.backstrides[self.ndim-1] / self.itemsize;
 
@@ -175,6 +188,8 @@ impl Array{
         self.set_array_flags();
     }
 
+    // Option is a fancy switch..case statement, where Some means it contains a value, None means it doesn't
+    
     fn transpose(&self, axes:Option<&[usize]>) -> Array{
         let mut res = self.clone();
 
@@ -187,7 +202,12 @@ impl Array{
             None => (0..self.ndim).rev().collect(),
         };
 
-        res.shape = axes.iter().map(|&i| self.shape[i]).collect();  // closures are used here
+        // Closures are identified with ||, closures are functions without any name, 
+        // like a lambda function in python but nameless
+        // note that there is a stark difference b/w the use of || in condition checking and as in functions
+        // be sure to re-check the code after a coffee
+        
+        res.shape = axes.iter().map(|&i| self.shape[i]).collect();
         res.strides = axes.iter().map(|&i| self.strides[i]).collect();
 
         res.recalculate_backstrides();
@@ -198,7 +218,7 @@ impl Array{
 
     fn add(&self, other: &Array) -> Array {
         if self.check_shape_equal(other) {
-            return self.elementwise_op(other, |a, b| a + b);
+            return self.elementwise_op(other, |a, b| a + b);    // closures again :)
         }
 
         let res_shape = self.final_shape(other).expect("Can't add arrays of non broadcastable shapes");
@@ -220,6 +240,8 @@ impl Array{
         return a_final.elementwise_op(&b_final, |a, b| a * b);
     }
 
+    // below is an example of Generics, fancy functions that don't depend on datatype
+    // datatypes can be defined as and when needed
     fn elementwise_op<T>(&self, other: &Array, op: T) -> Array
     where T: Fn(f32, f32) -> f32,
     {
@@ -242,6 +264,7 @@ impl Array{
     }
 }
 
+// this is a formatter for the result to be displayed in this order
 impl fmt::Debug for Array {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "Array {:?} {:?}", self.shape, self.data)
